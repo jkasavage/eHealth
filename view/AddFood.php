@@ -65,68 +65,139 @@ $builder = new CSF\Modules\Forms();
 
 	</div> <!-- End Results -->
 
-	<div class="modal fade"> <!-- Start Modal Container -->
+	<div class="modal fade" id="foodModal"> <!-- Start Modal Container -->
 		<div class="modal-dialog"> <!-- Start Modal Dialog Start -->
 			<div class="modal-content"> <!-- Start Modal Content -->
 				
 				<div class="modal-header"> <!-- Start Modal Header -->
-					<h4 class="modal-title foodName"></h4> <!-- Title -->
+					<h4 style="font-family: 'Helvetica', sans-serif;" class="modal-title foodName"></h4> <!-- Title -->
 				</div> <!-- End Modal Header -->
 
-				<div class="modal-body foodInfo"> <!-- Start Modal Body -->
-					<table class="table-striped table-bordered">
-						<tr>
-							<td><strong>Water (g):</strong></td>
-							<td id="water" style="text-align: center;"></td>
-							<td><strong>Energy (kcal):</strong></td>
-							<td id="energy"></td>
-						</tr>
-						<tr>
-							<td><strong>Protein (g):</strong></td>
-							<td id="protein" style="text-align: center;"></td>
-							<td><strong>Total Fat (g):</strong></td>
-							<td id="fat" style="text-align: center;"></td>
-						</tr>
-						<tr>
-							<td><strong>Carbohydrates (g):</strong></td>
-							<td id="carb" style="text-align: center;"></td>
-							<td><strong>Fiber (g):</strong></td>
-							<td id="fiber" style="text-align: center;"></td
-						</tr>
-						<tr>
-							<td><strong>Sugars (g):</strong></td>
-							<td id="sugar" style="text-align: center;"></td>
-							<td><strong>Calcium (mg):</strong></td>
-							<td id="calcium" style="text-align: center;"></td>
-						</tr>
-						<tr>
-							<td><strong>Iron (mg):</strong></td>
-							<td id="iron" style="text-align: center;"></td>
-							<td><strong>Magnesium (mg):</strong></td>
-							<td id="magnesium" style="text-align: center;"></td>
-						</tr>
-						<tr>
-							<td><strong>Phosphorus (mg):</strong></td>
-							<td id="phosphorus" style="text-align: center;"></td>
-							<td><strong>Potassium (mg):</strong></td>
-							<td id="potassium" style="text-align: center;"></td>
-						</tr>
-						<tr>
-							<td><strong>Sodium (mg):</strong></td>
-							<td id="sodium" style="text-align: center;"></td>
-							<td><strong>Zinc (mg):</strong></td>
-							<td id="zinc" style="text-align: center;"></td>
-						</tr>
-						<tr>
-							<td><strong>Vitamin C (mg):</strong></td>
-							<td id="vitc" style="text-align: center;"></td>
-							<td><strong>Thiamin (mg):</strong></td>
-							<td id="thiamin" style="text-align: center;"></td>
-						</tr>
-						<tr>
-							<td><strong>
-						</tr>
-					</table>
+				<div class="modal-body"> <!-- Start Modal Body -->
+					<div id="facts" style="border: 1px solid #000; padding-left: 5px; padding-right: 5px; padding-bottom: 5px; padding-top: 2px; width: 350px; margin-left: auto; margin-right: auto;"> <!-- Start Nutrition Facts -->
+						<table style="font-family: 'Helvetica', sans-serif; font-size: 12px; width: 100%;">
+							<tr>
+								<td colspan="2"><h2>Nutrition Facts</h2></td>
+							</tr>
+							<tr>
+								<td colspan="2" id="serving"><i>Serving Size 100 g</i></td>
+							</tr>
+							<tr>
+								<td colspan="2" style="background-color: black; height: 5px;">&nbsp;</td> <!-- Big Spacer -->
+							</tr>
+							<tr>
+								<td colspan="2" style="border-bottom: 1px solid #000;"><strong>Amount Per Serving</strong></td>
+							</tr>
+							<tr>
+								<td colspan="2">
+									<table style="font-family: 'Helvetica', sans-serif; font-size: 12px; width: 100%;">
+										<tr>
+											<td style="width: 50%;"><strong>Calories</strong> <span id="cal"></span></td>
+											<td style="width: 50%; text-align: right;">Calores from Fat <span id="fromFat"></span></td>
+										</tr>
+									</table>
+								</td>
+							</tr>
+							<tr>
+								<td colspan="2" style="background-color: black; height: 2px">&nbsp;</td> <!-- Spacer -->
+							</tr>
+							<tr>
+								<td colspan="2" style="text-align: right; border-bottom: 1px solid #000;"><strong>Values</strong></td>
+							</tr>
+							<tr>
+								<td style="width: 75%; border-bottom: 1px solid #000;"><strong>Total Fat (g)</strong></td>
+								<td style="width: 25%; text-align: right; border-bottom: 1px solid #000;" id="fat"></td>
+							</tr>
+							<tr>
+								<td style="width: 75%; text-indent: 2em; border-bottom: 1px solid #000;">Saturated Fat (g)</td>
+								<td style="width: 25%; text-align: right; border-bottom: 1px solid #000;" id="sat"></td>
+							</tr>
+							<tr>
+								<td style="width: 75%; text-indent: 2em; border-bottom: 1px solid #000;">Monounsaturated Fat (g)</td>
+								<td style="width: 25%; text-align: right; border-bottom: 1px solid #000;" id="mono"></td>
+							</tr>
+							<tr>
+								<td style="width: 75%; text-indent: 2em; border-bottom: 1px solid #000;">Polyunsaturated Fat (g)</td>
+								<td style="width: 25%; text-align: right; border-bottom: 1px solid #000;" id="poly"></td>
+							</tr>
+							<tr>
+								<td style="width: 75%; border-bottom: 1px solid #000;"><strong>Cholesterol (mg)</strong></td>
+								<td style="width: 25%; text-align: right; border-bottom: 1px solid #000;" id="chol"></td>
+							</tr>
+							<tr>
+								<td style="width: 75%; border-bottom: 1px solid #000;"><strong>Sodium (mg)</strong></td>
+								<td style="width: 25%; text-align: right; border-bottom: 1px solid #000;" id="sodium"></td>
+							</tr>
+							<tr>
+								<td style="width: 75%; border-bottom: 1px solid #000;"><strong>Total Carbohydrate (g)</strong></td>
+								<td style="width: 25%; text-align: right; border-bottom: 1px solid #000;" id="carb"></td>
+							</tr>
+							<tr>
+								<td style="width: 75%; text-indent: 2em; border-bottom: 1px solid #000;">Dietary Fiber (g)</td>
+								<td style="width: 25%; text-align: right; border-bottom: 1px solid #000;" id="fiber"></td>
+							</tr>
+							<tr>
+								<td style="width: 75%; text-indent: 2em; border-bottom: 1px solid #000;">Sugars (g)</td>
+								<td style="width: 25%; text-align: right; border-bottom: 1px solid #000;" id="sugar"></td>
+							</tr>
+							<tr>
+								<td style="width: 75%; border-bottom: 1px solid #000;"><strong>Protein (g)</strong></td>
+								<td style="width: 25%; text-align: right; border-bottom: 1px solid #000;" id="protein"></td>
+							</tr>
+							<tr>
+								<td style="width: 75%; border-bottom: 1px solid #000;"><strong>Caffeine (mg)</strong></td>
+								<td style="width: 25%; text-align: right; border-bottom: 1px solid #000;" id="caffeine"></td>
+							</tr>
+							<tr>
+								<td colspan="2" style="background-color: black; height: 5px;">&nbsp;</td> <!-- Big Spacer -->
+							</tr>
+							<tr>
+								<td colspan="2">
+									<table style="font-family: 'Helvetica', sans-serif; font-size: 12px; width: 100%;">
+										<tr>
+											<td style="width: 175px; border-bottom: 1px solid #000;"><strong>Vitamin A</strong> <span id="vita" style="float: right;"></span></td>
+											<td style="width: 175px; border-bottom: 1px solid #000; text-indent: 0.5em;"><strong>Vitamin B-6</strong> <span id="vitb6" style="float: right;"></span></td>
+										</tr>
+										<tr>
+											<td style="width: 175px; border-bottom: 1px solid #000;"><strong>Vitamin B-12</strong> <span id="vitb12" style="float: right;"></span></td>
+											<td style="width: 175px; border-bottom: 1px solid #000; text-indent: 0.5em;"><strong>Vitamin D</strong> <span id="vitd2" style="float: right;"></span></td>
+										</tr>
+										<tr>
+											<td style="width: 175px; border-bottom: 1px solid #000;"><strong>Vitamin E</strong> <span id="vite" style="float: right;"></span></td>
+											<td style="width: 175px; border-bottom: 1px solid #000; text-indent: 0.5em;"><strong>Vitamin K</strong> <span id="vitk" style="float: right;"></span></td>
+										</tr>
+										<tr>
+											<td style="width: 175px; border-bottom: 1px solid #000;"><strong>Calcium</strong> <span id="calcium" style="float: right;"></span></td>
+											<td style="width: 175px; border-bottom: 1px solid #000; text-indent: 0.5em;"><strong>Folate</strong> <span id="folate" style="float: right;"></span></td>
+										</tr>
+										<tr>
+											<td style="width: 175px; border-bottom: 1px solid #000;"><strong>Iron</strong> <span id="iron" style="float: right;"></span></td>
+											<td style="width: 175px; border-bottom: 1px solid #000; text-indent: 0.5em;"><strong>Magnesium</strong> <span id="magnesium" style="float: right;"></span></td>
+										</tr>
+										<tr>
+											<td style="width: 175px; border-bottom: 1px solid #000;"><strong>Niacin</strong> <span id="niacin" style="float: right;"></span></td>
+											<td style="width: 175px; border-bottom: 1px solid #000; text-indent: 0.5em;"><strong>Phosphorus</strong> <span id="phosphorus" style="float: right;"></span></td>
+										</tr>
+										<tr>
+											<td style="width: 175px; border-bottom: 1px solid #000;"><strong>Potassium</strong> <span id="potassium" style="float: right;"></span></td>
+											<td style="width: 175px; border-bottom: 1px solid #000; text-indent: 0.5em;"><strong>Riboflavin</strong> <span id="riboflavin" style="float: right;"></span></td>
+										</tr>
+										<tr>
+											<td style="width: 175px;"><strong>Thiamin</strong> <span id="thiamin" style="float: right;"></span></td>
+											<td style="width: 175px; text-indent: 0.5em;"><strong>Zinc</strong> <span id="zinc" style="float: right;"></span></td>
+										</tr>
+									</table>
+								</td>
+							</tr>
+						</table>
+					</div> <!-- End Nutrition Facts -->
+
+					<br /><br />
+
+					<strong>How many:</strong> <input id="itemCount" type="number" min="0" onchange="javascript: AddFood.formatStop(this.value);" style="width: 40px;" value="0" />&nbsp;&nbsp;&nbsp;
+					<strong>Type:</strong> <select id="measure"><option>Gram</option><option>Cup</option><option>Ounce</option></select>&nbsp;&nbsp;&nbsp;
+					<button class="btn btn-success" onclick="javascript: AddFood.convert();">Convert</button>
+
 				</div> <!-- End Modal Body -->
 
 				<div class="modal-footer"> <!-- Start Modal Footer -->
