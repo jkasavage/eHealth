@@ -87,7 +87,7 @@ class GetFood
 	/**
 	 * Get Food Item
 	 * 
-	 * @param  string $id
+	 * @param  String $id
 	 * 
 	 * @return Array $item
 	 */
@@ -104,5 +104,40 @@ class GetFood
 				   ->execute();
 
 		echo json_encode($item, true);
+	}
+
+	/**
+	 * Search by Words
+	 * 
+	 * @param  String $phrase
+	 * 
+	 * @return Array $item
+	 */
+	public static function wordSearch($phrase)
+	{
+		$query = "SELECT name, number FROM foodInfo WHERE name REGEXP '";
+		$length = count($phrase);
+
+		if($length > 1) {
+			for($i=0; $i <= $length - 1; $i++) {
+				if($i == $length - 1) {
+					$query .= $phrase[$i] . "'";
+				} else {
+					$query .= $phrase[$i] . "|";
+				}
+			}
+		} else {
+			$query .= $phrase[0] . "'";
+		}
+
+		$db = new CSF\Modules\Data("nutrition");
+
+		$item = $db->rawRequest($query);
+
+		if(count($item) > 0) {
+			echo json_encode($item, true);
+		} else {
+			echo "0";
+		}
 	}
 }

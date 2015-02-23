@@ -23,23 +23,55 @@ $builder = new CSF\Modules\Forms();
 
 	<div id="choices" style="width: 100%; margin: auto;"> <!-- Start Choices -->
 
-		<div class="panel panel-default" style="float: left; width: 49%; height: 150px; overflow: hidden;"><!-- Start Left Block -->
+		<div class="panel panel-default" style="float: left; width: 49%; height: 200px; overflow: hidden;"><!-- Start Left Block -->
 			<div class="panel-heading" style="height: 40px; padding: 5px;"><h4 style="font-weight: bold;">Search</h4></div>
 			<div class="panel-body">
-				<?php 
-					$catParam = array("id"=>"foodCats", "label"=>"Select a Category:");
 
-					echo $builder::CSSelect($catParam);
-				?>
-				&nbsp;&nbsp;
-				<button class="btn btn-success" onClick="javascript: AddFood.categorySearch();">Go!</button>
+				<ul class="nav nav-tabs" role="tablist"> <!-- Start Tab Menu -->
+					<li role="presentation" class="active">
+						<a href="#wordSearch" role="tab" aria-controls="wordSearch" data-toggle="tab">By Word</a>
+					</li>
+					<li role="presentation">
+						<a href="#byCategory" role="tab" aria-controls="byCategory" data-toggle="tab">By Category</a>
+					</li>
+					<li role="presentation">
+						<a href="#recentSearches" role="tab" aria-controls="recentSearches" data-toggle="tab">Recent Searches</a>
+					</li>
+				</ul> <!-- End Tab Menu -->
+
+				<br />
+
+				<div class="tab-content"> <!-- Start Tabs -->
+					<div role="tabpanel" class="tab-pane active" id="wordSearch"> <!-- Start Word Search -->
+						<strong>Enter your Search:</strong><br />
+						<input id="wordSearchBox" style="width: 300px;" />
+
+						&nbsp;&nbsp;
+						<button class="btn btn-success" onclick="javascript: AddFood.wordSearch();">Go!</button>
+					</div> <!-- End Word Search -->
+
+					<div role="tabpanel" class="tab-pane" id="byCategory"> <!-- Start Category Search -->
+						<?php 
+							$catParam = array("id"=>"foodCats", "label"=>"Select a Category:");
+
+							echo $builder::CSSelect($catParam);
+						?>
+
+						&nbsp;&nbsp;
+						<button class="btn btn-success" onClick="javascript: AddFood.categorySearch();">Go!</button>
+					</div> <!-- End Category Search -->
+
+					<div role="tabpanel" class="tab-pane" id="recentSearches"> <!-- Start Recent Searches -->
+
+					</div> <!-- End Recent Searches -->
+				</div> <!-- End Tabs -->
 
 			</div>
 		</div><!-- End Left Block -->
 
 		<div style="float: left; width: 1%; overflow: hidden;"></div> <!-- Spacer -->
 
-		<div class="panel panel-default" style="float: right; width: 49%; height: 150px; overflow: hidden;"><!-- Start Right Block -->
+		<div class="panel panel-default" style="float: right; width: 49%; height: 200px; overflow: hidden;"><!-- Start Right Block -->
 			<div class="panel-heading" style="height: 40px; padding: 5px;"><h4 style="font-weight: bold;">Search Your Meals</h4></div>
 			<div class="panel-body" id="meals">
 				<?php

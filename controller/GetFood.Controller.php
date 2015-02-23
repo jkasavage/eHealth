@@ -6,9 +6,6 @@
  * @author Joe Kasavage
  */
 
-ini_set('display_errors', 1);
-error_reporting(E_ALL);
-
 require("../model/GetFood.Model.php");
 
 $task = $_POST["task"];
@@ -29,6 +26,10 @@ switch($task) {
 
 	case 'getFoodItem':
 		$obj::getFoodItem($_POST["item"]);
+		break;
+
+	case 'wordSearch':
+		$obj::wordSearch($_POST["crit"]);
 		break;
 
 	default:

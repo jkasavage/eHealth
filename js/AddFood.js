@@ -8,28 +8,28 @@
 var AddFood = {
 	/**
 	 * Store Food Items for Pagination
-	 * 
+	 *
 	 * @type {Array}
 	 */
 	store: [],
 
 	/**
 	 * Page Count
-	 * 
+	 *
 	 * @type {Number}
 	 */
 	page: 0,
 
 	/**
 	 * Selected Item
-	 * 
+	 *
 	 * @type {Array}
 	 */
 	item: [],
 
 	/**
 	 * Store Conversion Data
-	 * 
+	 *
 	 * @type {Array}
 	 */
 	convertItem: [],
@@ -100,7 +100,7 @@ var AddFood = {
 
 	/**
 	 * Search By Category
-	 * 
+	 *
 	 * @return {undefined}
 	 */
 	categorySearch: function() {
@@ -152,12 +152,12 @@ var AddFood = {
 	addPageButtons: function() {
 		$(".searchResults").append('<br /><button class="btn btn-default" id="previous" onClick="javascript: AddFood.categoryPrevious();" disabled style="float: left;">Previous</button>');
 		$(".searchResults").append('<button class="btn btn-default" id="next" onClick="javascript: AddFood.categoryNext();" style="float: right;">Next</button><br />');
-		$("#pages").html('<strong style="style="float: right;">' + (AddFood.page + 1) + ' of ' + Math.ceil(AddFood.store.length/10) + '</strong>');
+		$("#pages").html('<strong style="style="float: right;">' + (AddFood.page + 1) + ' of ' + Math.ceil(AddFood.store.length / 10) + '</strong>');
 	},
 
 	/**
 	 * Next Button for Category Search
-	 * 
+	 *
 	 * @return {undefined}
 	 */
 	categoryNext: function() {
@@ -168,8 +168,8 @@ var AddFood = {
 		var start = AddFood.page * 10;
 		var stop = start + 10;
 
-		for(var i=start; i < stop; i++) {
-			if(typeof AddFood.store[i] != 'undefined') {
+		for (var i = start; i < stop; i++) {
+			if (typeof AddFood.store[i] != 'undefined') {
 				$(".searchResults").append('<a href="#" onClick="javascript: AddFood.getFoodDetails(this.id);" id="' + AddFood.store[i].number + '">' + AddFood.store[i].name + '</a><br />');
 			} else {
 				break;
@@ -182,7 +182,7 @@ var AddFood = {
 
 	/**
 	 * Previous Button for Category Search
-	 * 
+	 *
 	 * @return {undefined}
 	 */
 	categoryPrevious: function() {
@@ -190,11 +190,11 @@ var AddFood = {
 
 		$('.searchResults').html('');
 
-		var start = (AddFood.page === 0) ? 10:(AddFood.page === 1) ? 20:AddFood.page * 10 + 10;
+		var start = (AddFood.page === 0) ? 10 : (AddFood.page === 1) ? 20 : AddFood.page * 10 + 10;
 		var stop = start - 10;
 
-		for(var i=stop; i < start; i++) {
-			if(typeof AddFood.store[i] != 'undefined') {
+		for (var i = stop; i < start; i++) {
+			if (typeof AddFood.store[i] != 'undefined') {
 				$(".searchResults").append('<a href="#" onClick="javascript: AddFood.getFoodDetails(this.id);" id="' + AddFood.store[i].number + '">' + AddFood.store[i].name + '</a><br />');
 			} else {
 				break;
@@ -207,27 +207,26 @@ var AddFood = {
 
 	/**
 	 * Disable buttons as needed
-	 * 
+	 *
 	 * @return {undefined}
 	 */
-	buttonCheck: function()
-	{
-		if(AddFood.page === 0) {
+	buttonCheck: function() {
+		if (AddFood.page === 0) {
 			$("#previous").prop("disabled", true);
 		} else {
 			$('#previous').prop('disabled', false);
 		}
 
-		if(AddFood.page + 1 >= Math.ceil(AddFood.store.length/10)) {
+		if (AddFood.page + 1 >= Math.ceil(AddFood.store.length / 10)) {
 			$('#next').prop('disabled', true);
 		}
 	},
 
 	/**
 	 * Get Item on Click
-	 * 
+	 *
 	 * @param  {string} item
-	 * 
+	 *
 	 * @return {undefined}
 	 */
 	getFoodDetails: function(item) {
@@ -243,7 +242,7 @@ var AddFood = {
 
 				AddFood.item = data[0];
 
-				if(data) {
+				if (data) {
 					var calFromFat = data[0].fat * 9;
 					var calFromCarb = data[0].carb * 4;
 					var calFromPro = data[0].protein * 4;
@@ -298,7 +297,7 @@ var AddFood = {
 
 	/**
 	 * Get Item Object to smallest factor (1g)
-	 * 
+	 *
 	 * @return {undefined}
 	 */
 	breakDown: function() {
@@ -337,15 +336,15 @@ var AddFood = {
 
 	/**
 	 * Make sure only Numbers
-	 * 
+	 *
 	 * @param  {string} input
-	 * 
+	 *
 	 * @return {undefined}
 	 */
 	formatStop: function(input) {
-		if(isNaN(parseInt(input))) {
+		if (isNaN(parseInt(input))) {
 			$("#itemCount").val('0');
-		} else if(input < 0) {
+		} else if (input < 0) {
 			$("#itemCount").val('0');
 		} else {
 			return true;
@@ -354,21 +353,21 @@ var AddFood = {
 
 	/**
 	 * Conversion Method
-	 * 
+	 *
 	 * @return {undefined}
 	 */
 	convert: function() {
 		var measure = $("#measure option:selected").val();
 		var mCount = parseInt($("#itemCount").val());
 
-		if(mCount <= 0) {
+		if (mCount <= 0) {
 			alert("You must enter a number to convert this item!\n\nError Code: ConvertItem1");
 			return false;
 		} else {
-			switch(measure) {
+			switch (measure) {
 				case 'Gram':
-					for(var i in AddFood.item) {
-						if(isNaN(parseInt(AddFood.item[i]))) {
+					for (var i in AddFood.item) {
+						if (isNaN(parseInt(AddFood.item[i]))) {
 							continue;
 						} else {
 							AddFood.convertItem[i] = Math.ceil(parseFloat(AddFood.item[i]) * mCount);
@@ -377,8 +376,8 @@ var AddFood = {
 					break;
 
 				case 'Cup':
-					for(var i in AddFood.item) {
-						if(isNaN(parseInt(AddFood.item[i]))) {
+					for (var i in AddFood.item) {
+						if (isNaN(parseInt(AddFood.item[i]))) {
 							continue;
 						} else {
 							AddFood.convertItem[i] = Math.ceil((parseFloat(AddFood.item[i]) * 227) * mCount);
@@ -387,8 +386,8 @@ var AddFood = {
 					break;
 
 				case 'Ounce':
-					for(var i in AddFood.item) {
-						if(isNaN(parseInt(AddFood.item[i]))) {
+					for (var i in AddFood.item) {
+						if (isNaN(parseInt(AddFood.item[i]))) {
 							continue;
 						} else {
 							AddFood.convertItem[i] = Math.ceil((parseFloat(AddFood.item[i]) * 28.34) * mCount);
@@ -398,7 +397,7 @@ var AddFood = {
 			}
 		}
 
-		var m = (measure == "Gram") ? "g":(measure == "Cup") ? "c":"oz";
+		var m = (measure == "Gram") ? "g" : (measure == "Cup") ? "c" : "oz";
 
 		$("#serving").html('<i>Serving Size ' + mCount + " " + m);
 
@@ -436,5 +435,71 @@ var AddFood = {
 		$("#thiamin").html(Math.ceil((AddFood.convertItem.thiamin / 1.5) * 100) + " %");
 		$("#zinc").html(Math.ceil((AddFood.convertItem.zinc / 15) * 100) + " %");
 		$("#caffeine").html(Math.ceil(AddFood.convertItem.caffeine));
-	}
+	},
+
+	/**
+	 * Search by Words
+	 *
+	 * @param  {string} words
+	 *
+	 * @return {undefined}
+	 */
+	wordSearch: function() {
+		var words = $("#wordSearchBox").val();
+
+		if (words.length == 0) {
+			alert("You must enter words to search for!\n\nPlease try again.");
+			return false;
+		}
+
+		words = words.split(" ");
+
+		for (w in words) {
+			if (!/^[a-z]+$/i.test(words.w)) {
+				alert("Your search may only contain letters!\n\nPlease try again.");
+				return false;
+				break;
+			} else {
+				continue;
+			}
+		}
+
+		$.ajax({
+			type: "POST",
+			url: "controller/GetFood.Controller.php",
+			data: {
+				task: "wordSearch",
+				crit: words
+			},
+			success: function(data) {
+				if (typeof data[0] != 'undefined') {
+					data = JSON.parse(data);
+
+					$(".searchResults").html('');
+					$("#pages").html('');
+
+					AddFood.store = data;
+
+					for (var i = 0; i < 10; i++) {
+						$(".searchResults").append('<a href="#" onClick="javascript: AddFood.getFoodDetails(this.id);" id="' + AddFood.store[i].number + '">' + AddFood.store[i].name + '</a><br />');
+					}
+
+					AddFood.addPageButtons();
+
+					$("#results").fadeIn();
+					$("#wordSearchBox").val("");
+				} else {
+					$(".searchResults").html('');
+					$("#pages").html('');
+					$(".searchResults").append('<strong>Oops! No results found.</strong>');
+				}
+			},
+			error: function(xhr) {
+				console.log(xhr);
+				alert("Your search could not be completed at this time. Please try again later.\n\nError Code: WordSearch1");
+			}
+		});
+	},
+
+	
 };
