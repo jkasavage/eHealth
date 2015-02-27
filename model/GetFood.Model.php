@@ -121,13 +121,13 @@ class GetFood
 		if($length > 1) {
 			for($i=0; $i <= $length - 1; $i++) {
 				if($i == $length - 1) {
-					$query .= $phrase[$i] . "'";
+					$query .= "*" . $phrase[$i] . "'";
 				} else {
-					$query .= $phrase[$i] . "|";
+					$query .= "*" . $phrase[$i] . "|";
 				}
 			}
 		} else {
-			$query .= $phrase[0] . "'";
+			$query .= "*" . $phrase[0] . "'";
 		}
 
 		$db = new CSF\Modules\Data("nutrition");
@@ -138,6 +138,48 @@ class GetFood
 			echo json_encode($item, true);
 		} else {
 			echo "0";
+		}
+	}
+
+	/**
+	 * Add Item to Favorites
+	 * 
+	 * @param String $item Item Number
+	 * @param String $member Member Number
+	 *
+	 * @return String
+	 */
+	public static function addFavorite($item, $member)
+	{
+		$db = new CSF\Modules\Data("nutrition");
+
+		$selectParam = array(
+				"table"=>"users",
+				"columns"=>array(
+						"favorites"
+					)
+			);
+
+		$selectCheck = $db->selectData($selectParam)
+						  ->where(array("id"=>$member))
+						  ->execute();
+
+		if(empty($selectCheck[0]["favorites"])) {
+			$query = "INSERT INTO users (favorites) VALUES ('" . $item . "') WHERE member='" . $member . "'";
+
+			$check = $db->rawRequest($query)
+						->execute();
+		} else {
+			$query = "UPDATE users SET favorites=CONCAT_WS(',', favorites, '" . $item . "') WHERE member='" . $member . "'";
+
+			$check = $db->rawRequest($query)
+						->execute();
+		}
+
+		if($check) {
+			echo '1';
+		} else {
+			echo '0';
 		}
 	}
 }

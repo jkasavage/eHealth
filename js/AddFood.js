@@ -36,8 +36,6 @@ var AddFood = {
 
 	/**
 	 * Get Food Categories
-	 *
-	 * @return {undefined}
 	 */
 	getFoodCats: function() {
 		$.ajax({
@@ -65,9 +63,7 @@ var AddFood = {
 	},
 
 	/**
-	 * Get User Meal Names
-	 *
-	 * @return {undefined}
+	 * Get User Meal
 	 */
 	getMeals: function() {
 		$.ajax({
@@ -100,8 +96,6 @@ var AddFood = {
 
 	/**
 	 * Search By Category
-	 *
-	 * @return {undefined}
 	 */
 	categorySearch: function() {
 		var e = document.getElementById('foodCats');
@@ -146,8 +140,6 @@ var AddFood = {
 
 	/**
 	 * Add Page Buttons to Category Search
-	 *
-	 * @return {undefined}
 	 */
 	addPageButtons: function() {
 		$(".searchResults").append('<br /><button class="btn btn-default" id="previous" onClick="javascript: AddFood.categoryPrevious();" disabled style="float: left;">Previous</button>');
@@ -157,8 +149,6 @@ var AddFood = {
 
 	/**
 	 * Next Button for Category Search
-	 *
-	 * @return {undefined}
 	 */
 	categoryNext: function() {
 		AddFood.page++;
@@ -182,8 +172,6 @@ var AddFood = {
 
 	/**
 	 * Previous Button for Category Search
-	 *
-	 * @return {undefined}
 	 */
 	categoryPrevious: function() {
 		AddFood.page--;
@@ -207,8 +195,6 @@ var AddFood = {
 
 	/**
 	 * Disable buttons as needed
-	 *
-	 * @return {undefined}
 	 */
 	buttonCheck: function() {
 		if (AddFood.page === 0) {
@@ -225,9 +211,7 @@ var AddFood = {
 	/**
 	 * Get Item on Click
 	 *
-	 * @param  {string} item
-	 *
-	 * @return {undefined}
+	 * @param  {String} item
 	 */
 	getFoodDetails: function(item) {
 		$.ajax({
@@ -297,8 +281,6 @@ var AddFood = {
 
 	/**
 	 * Get Item Object to smallest factor (1g)
-	 *
-	 * @return {undefined}
 	 */
 	breakDown: function() {
 		AddFood.item.energy = parseInt(AddFood.item.energy) / 100;
@@ -337,15 +319,17 @@ var AddFood = {
 	/**
 	 * Make sure only Numbers
 	 *
-	 * @param  {string} input
+	 * @param  {String} input
 	 *
-	 * @return {undefined}
+	 * @return {Boolean}
 	 */
 	formatStop: function(input) {
-		if (isNaN(parseInt(input))) {
+		if (isNaN(parseInt(input)) || isNaN(parseFloat(input))) {
 			$("#itemCount").val('0');
-		} else if (input < 0) {
+			return false;
+		} else if (parseFloat(input) < 0) {
 			$("#itemCount").val('0');
+			return false;
 		} else {
 			return true;
 		}
@@ -353,12 +337,10 @@ var AddFood = {
 
 	/**
 	 * Conversion Method
-	 *
-	 * @return {undefined}
 	 */
 	convert: function() {
 		var measure = $("#measure option:selected").val();
-		var mCount = parseInt($("#itemCount").val());
+		var mCount = parseFloat($("#itemCount").val());
 
 		if (mCount <= 0) {
 			alert("You must enter a number to convert this item!\n\nError Code: ConvertItem1");
@@ -440,9 +422,7 @@ var AddFood = {
 	/**
 	 * Search by Words
 	 *
-	 * @param  {string} words
-	 *
-	 * @return {undefined}
+	 * @param  {String} words
 	 */
 	wordSearch: function() {
 		var words = $("#wordSearchBox").val();
@@ -472,6 +452,11 @@ var AddFood = {
 				crit: words
 			},
 			success: function(data) {
+				$("#pages").html('');
+				$("#wordSearchBox").val("");
+
+				AddFood.page = 0;
+
 				if (typeof data[0] != 'undefined') {
 					data = JSON.parse(data);
 
@@ -487,11 +472,11 @@ var AddFood = {
 					AddFood.addPageButtons();
 
 					$("#results").fadeIn();
-					$("#wordSearchBox").val("");
 				} else {
 					$(".searchResults").html('');
 					$("#pages").html('');
 					$(".searchResults").append('<strong>Oops! No results found.</strong>');
+					$("#results").fadeIn();
 				}
 			},
 			error: function(xhr) {
@@ -501,5 +486,32 @@ var AddFood = {
 		});
 	},
 
-	
+	/**
+	 * Add Item to Favorites
+	 */
+	addToFavs: function() {
+		var item = AddFood.item.number;
+
+		$.ajax({
+			type: "POST",
+			url: "controller/GetFood.Controller.php",
+			data: {
+				task: "addFavorite",
+				item: item,
+				member: $("#memberNumber").val()
+			},
+			success: function(data) {
+				if(data == "1") {
+					alert("Item has been added to your favorites!");
+				} else {
+					console.log(data);
+					alert("The item could not be saved. If this continues please contact technical support.\n\nError Code: AddFavorite2");
+				}
+			},
+			error: function(xhr) {
+				console.log(xhr);
+				alert("Your request could not be processed at this time. If this continues please contact technical support.\n\nError Code: AddFavorite1");
+			}
+		});
+	}
 };

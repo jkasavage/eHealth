@@ -32,6 +32,10 @@ switch($task) {
 		$obj::wordSearch($_POST["crit"]);
 		break;
 
+	case 'addFavorite':
+		$obj::addFavorite($_POST["item"], $_POST["member"]);
+		break;
+
 	default:
 		return false;
 		break;

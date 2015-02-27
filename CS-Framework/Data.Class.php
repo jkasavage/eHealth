@@ -47,6 +47,13 @@ class Data
 	private $builder = "";
 
 	/**
+	 * Request Array
+	 * 
+	 * @var array
+	 */
+	private $request = array();
+
+	/**
 	 * SQL Type
 	 * 
 	 * @var String
@@ -268,6 +275,8 @@ class Data
 	 */
 	public function insertData(Array $request)
 	{
+		$this->request = $request;
+
 		$this->counter = 1;
 
 		if(empty($request["table"])) {
@@ -299,19 +308,11 @@ class Data
 
 		$this->builder .= ") VALUES (";
 
-		foreach($request["values"] as $val) {
+		foreach($request["columns"] as $col) {
 			if($this->counter === $valueCount) {
-				if(strpos($val, "()")) {
-					$this->builder .= $val . ')';
-				} else {
-					$this->builder .= '"' . $val . '")';
-				}
+				$this->builder .= ":" . $col . ")";
 			} else {
-				if(strpos($val, "()")) {
-					$this->builder .= $val . ', ';
-				} else {
-					$this->builder .= '"' . $val . '", ';
-				}
+				$this->builder .= ":" . $col . ", ";
 			}
 
 			$this->counter++;
@@ -332,6 +333,8 @@ class Data
 	 */
 	public function updateData(Array $request)
 	{
+		$this->request = $request;
+
 		if(empty($request["table"])) {
 			Exceptions::SQLnoTableError();
 		}
@@ -349,9 +352,9 @@ class Data
 
 		for($i=0; $i < $columnCount; $i++) {
 			if($i === $columnCount - 1) {
-				$this->builder .= $request["columns"][$i] . '="' . $request["values"][$i] . '" ';
+				$this->builder .= $request["columns"][$i] . '=:' . $i . ' ';
 			} else {
-				$this->builder .= $request["columns"][$i] . '="' . $request["values"][$i] . '", ';
+				$this->builder .= $request["columns"][$i] . '=:' . $i . ', ';
 			}
 		}
 
@@ -454,27 +457,38 @@ class Data
 		try {
 			$con = new \PDO("mysql:host=$this->server;dbname=$this->database", $this->globals->getUser(), $this->globals->getPwd());
 			$prep = $con->prepare($this->builder);
-			$prep->execute();
 
 			switch($this->buildType) {
 				case "INSERT":
 				case "UPDATE":
-				case "DELETE":
-					$check = $prep->rowCount();
+					for($i=0; $i <= count($this->request["values"]) - 1; $i++) {
+						$prep->bindValue(":" . $this->request["columns"][$i], $this->request["values"][$i]);
+					}
+					$check = $prep->execute() or die(print_r($prep->errorInfo(), true));;
+					$this->builder = "";
+					$this->buildType = "";
+					$this->counter = 0;
 					if($check) {
-						$this->builder = "";
-						$this->buildType = "";
-						$this->counter = 0;
 						return true;
 					} else {
-						$this->builder = "";
-						$this->buildType = "";
-						$this->counter = 0;
+						return false;
+					}					
+					break;
+				case "DELETE":
+					$prep->execute();
+					$check = $prep->rowCount();
+					$this->builder = "";
+					$this->buildType = "";
+					$this->counter = 0;
+					if($check) {
+						return true;
+					} else {
 						return false;
 					}
 					break;
 
 				case "SELECT":
+					$prep->execute();
 					$data = $prep->fetchAll(\PDO::FETCH_ASSOC);
 					$this->builder = "";
 					$this->buildType = "";
@@ -484,55 +498,6 @@ class Data
 			}
 		} catch (PDOException $ex) {
 			Exceptions::SQLError($ex);
-		}
-	}
-
-	/**
-	 * Execute Select Query on all Servers
-	 * 
-	 * @return Array
-	 */
-	public function executeAll()
-	{
-		$servers = array(
-						"172.16.238.23",
-						"172.16.238.188",
-						"172.16.230.54",
-						"172.16.238.222",
-						"172.16.238.154",
-						"172.16.238.88",
-						"172.16.227.119",
-						"172.16.238.19",
-						"64.40.98.79"
-					);
-
-		$host = explode(".", $_SERVER["HTTP_HOST"]);
-
-		if($host[0] != "healthclubsystems") {
-			Exceptions::SQLexecuteAllWrongSite();
-		} else {
-			$collection = array();
-
-			for($i=0; $i < count($servers); $i++) {
-				try {
-					$con = new \PDO("mysql:host=" . $servers[$i] . ";dbname=" . $this->database, $this->globals->getUser(), $this->globals->getPwd());
-					$prep = $con->prepare($this->builder);
-					$prep->execute();
-
-					$getData = $prep->fetchAll(\PDO::FETCH_ASSOC);
-
-					if($getData) {
-						$getData["LOCATION"] = $servers[$i];
-						$collection = array_merge($getData, $collection);
-					}
-				 } catch(PDOException $ex) {
-				 	Exceptions::SQLError($ex);
-				 }
-			}
-			$this->builder = "";
-			$this->buildType = "";
-			$this->counter = 0;
-			return $collection;
 		}
 	}
 }

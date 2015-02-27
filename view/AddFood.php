@@ -226,13 +226,14 @@ $builder = new CSF\Modules\Forms();
 
 					<br /><br />
 
-					<strong>How many:</strong> <input id="itemCount" type="number" min="0" onchange="javascript: AddFood.formatStop(this.value);" style="width: 40px;" value="0" />&nbsp;&nbsp;&nbsp;
+					<strong>How many:</strong> <input id="itemCount" type="number" min="0" onchange="javascript: AddFood.formatStop(this.value);" style="width: 55px;" value="0" />&nbsp;&nbsp;&nbsp;
 					<strong>Type:</strong> <select id="measure"><option>Gram</option><option>Cup</option><option>Ounce</option></select>&nbsp;&nbsp;&nbsp;
 					<button class="btn btn-success" onclick="javascript: AddFood.convert();">Convert</button>
 
 				</div> <!-- End Modal Body -->
 
 				<div class="modal-footer"> <!-- Start Modal Footer -->
+					<button class="btn btn-info" style="float: left;" onclick="javascript: AddFood.addToFavs();">Add To Favorites</button>
 					<button class="btn btn-default" data-dismiss="modal">Close</button>
 					<button class="btn btn-primary">Add Item</button>
 				</div> <!-- End Modal Footer -->
