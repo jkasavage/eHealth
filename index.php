@@ -7,14 +7,14 @@
  */
 session_start();
 
+if(!isset($_SESSION["server"])) {
+	header("Location: https://www.healthclubsystems.com/member_new/member_login.php");
+}
+
 // CSF Auto Loader Instance
 require_once('CS-Framework/AutoLoader.Class.php');
 $auto = new CSF\Modules\AutoLoader();
 $auto->register();
-
-if(!isset($_SESSION["server"])) {
-	header("Location: https://www.healthclubsystems.com/member_new/member_login.php");
-}
 
 /**
  * Custom Error Handling
@@ -26,6 +26,24 @@ set_error_handler(function($errno, $errstr, $errfile, $errline, array $errcontex
 
 	throw new ErrorException($errstr, 0, $errno, $errfile, $errline);
 });
+
+// Get User Calories
+$db = new CSF\Modules\Data("nutrition");
+
+$calParam = array(
+		"table"=>"users",
+		"columns"=>array("intake")
+	);
+
+$getCal = $db->selectData($calParam)
+			 ->where(array("member"=>$_SESSION["memno"]))
+			 ->execute();
+
+if($getCal) {
+	$_SESSION["calories"] = $getCal[0]["intake"];
+} else {
+	$_SESSION["calories"] = 0;
+}
 ?>
 
 <html>
@@ -45,7 +63,7 @@ set_error_handler(function($errno, $errstr, $errfile, $errline, array $errcontex
 			<div id="menu"> <!-- Start Menu -->
 				<div class="list-group">
 					<div class="list-group-item" style="font-size: 22px; text-align: center; height: 100px; padding-top: 28px;">
-						Daily Calories Left:<br /> 1000
+						Daily Calories Left:<br /> <?php echo $_SESSION["calories"]; ?>
 					</div>
 
 					<a href="#" class="list-group-item" style="font-size: 20px; text-align: center; padding: 15px;">

@@ -121,13 +121,13 @@ class GetFood
 		if($length > 1) {
 			for($i=0; $i <= $length - 1; $i++) {
 				if($i == $length - 1) {
-					$query .= "*" . $phrase[$i] . "'";
+					$query .= "." . $phrase[$i] . "'";
 				} else {
-					$query .= "*" . $phrase[$i] . "|";
+					$query .= "." . $phrase[$i] . "|";
 				}
 			}
 		} else {
-			$query .= "*" . $phrase[0] . "'";
+			$query .= "." . $phrase[0] . "'";
 		}
 
 		$db = new CSF\Modules\Data("nutrition");
@@ -155,31 +155,42 @@ class GetFood
 
 		$selectParam = array(
 				"table"=>"users",
-				"columns"=>array(
-						"favorites"
-					)
+				"columns"=>array("favorites")
 			);
 
 		$selectCheck = $db->selectData($selectParam)
-						  ->where(array("id"=>$member))
+						  ->where(array("member"=>$member))
 						  ->execute();
 
-		if(empty($selectCheck[0]["favorites"])) {
-			$query = "INSERT INTO users (favorites) VALUES ('" . $item . "') WHERE member='" . $member . "'";
+		$itemCheck = explode(",", $selectCheck[0]["favorites"]);
 
-			$check = $db->rawRequest($query)
-						->execute();
+		if(in_array($item, $itemCheck)) {
+			echo '2';
 		} else {
-			$query = "UPDATE users SET favorites=CONCAT_WS(',', favorites, '" . $item . "') WHERE member='" . $member . "'";
+			if(strlen($selectCheck[0]["favorites"]) == 0) {
+				$query = "UPDATE users SET favorites='" . $item . "' WHERE member='" . $member . "'";
 
-			$check = $db->rawRequest($query)
-						->execute();
-		}
+				$check = $db->rawRequest($query);
+			} else {
+				$query = "UPDATE users SET favorites=CONCAT_WS(',', favorites, '" . $item . "') WHERE member='" . $member . "'";
 
-		if($check) {
-			echo '1';
-		} else {
-			echo '0';
+				$check = $db->rawRequest($query);
+			}
+
+			if($check) {
+				echo '1';
+			} else {
+				echo '0';
+			}
 		}
+	}
+
+	public static function addFoodItem($data)
+	{
+		$conn = new Mongo();
+
+		$db = $conn->selectDB("foodLog");
+
+		$col = $db->selectCollection($data["member"]);
 	}
 }

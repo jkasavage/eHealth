@@ -36,6 +36,10 @@ switch($task) {
 		$obj::addFavorite($_POST["item"], $_POST["member"]);
 		break;
 
+	case 'addFoodItem':
+		$obj::addFoodItem($_POST["obj"]);
+		break;
+
 	default:
 		return false;
 		break;

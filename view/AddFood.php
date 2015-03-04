@@ -35,7 +35,7 @@ $builder = new CSF\Modules\Forms();
 						<a href="#byCategory" role="tab" aria-controls="byCategory" data-toggle="tab">By Category</a>
 					</li>
 					<li role="presentation">
-						<a href="#recentSearches" role="tab" aria-controls="recentSearches" data-toggle="tab">Recent Searches</a>
+						<a href="#recentItems" role="tab" aria-controls="recentItems" data-toggle="tab">Recent Items</a>
 					</li>
 				</ul> <!-- End Tab Menu -->
 
@@ -61,9 +61,9 @@ $builder = new CSF\Modules\Forms();
 						<button class="btn btn-success" onClick="javascript: AddFood.categorySearch();">Go!</button>
 					</div> <!-- End Category Search -->
 
-					<div role="tabpanel" class="tab-pane" id="recentSearches"> <!-- Start Recent Searches -->
+					<div role="tabpanel" class="tab-pane" id="recentItems"> <!-- Start Recent Items -->
 
-					</div> <!-- End Recent Searches -->
+					</div> <!-- End Recent Items -->
 				</div> <!-- End Tabs -->
 
 			</div>
@@ -106,7 +106,7 @@ $builder = new CSF\Modules\Forms();
 				</div> <!-- End Modal Header -->
 
 				<div class="modal-body"> <!-- Start Modal Body -->
-					<div id="facts" style="border: 1px solid #000; padding-left: 5px; padding-right: 5px; padding-bottom: 5px; padding-top: 2px; width: 350px; margin-left: auto; margin-right: auto;"> <!-- Start Nutrition Facts -->
+					<div id="facts" style="border: 1px solid #000; padding-left: 5px; padding-right: 5px; padding-bottom: 2px; width: 350px; margin-left: auto; margin-right: auto;"> <!-- Start Nutrition Facts -->
 						<table style="font-family: 'Helvetica', sans-serif; font-size: 12px; width: 100%;">
 							<tr>
 								<td colspan="2"><h2>Nutrition Facts</h2></td>
@@ -224,18 +224,24 @@ $builder = new CSF\Modules\Forms();
 						</table>
 					</div> <!-- End Nutrition Facts -->
 
-					<br /><br />
+					<br />
 
 					<strong>How many:</strong> <input id="itemCount" type="number" min="0" onchange="javascript: AddFood.formatStop(this.value);" style="width: 55px;" value="0" />&nbsp;&nbsp;&nbsp;
 					<strong>Type:</strong> <select id="measure"><option>Gram</option><option>Cup</option><option>Ounce</option></select>&nbsp;&nbsp;&nbsp;
-					<button class="btn btn-success" onclick="javascript: AddFood.convert();">Convert</button>
+					<button class="btn btn-success" onclick="javascript: AddFood.convert();">Convert</button><br /><br />
 
+					<sub><b><i>*Note: You must select a category before you can add any item!</i></b></sub><br /><br />
+
+					<label class="control-label" for="addType">Category: </label>
+					<select id="addType" name="addType" onchange="javascript: AddFood.enableBtn();"><option></option><option>Breakfast</option><option>Lunch</option><option>Dinner</option><option>Snack</option></select>&nbsp;&nbsp;&nbsp;
+					<label class="control-label" for="addDate">Date: </label>
+					<input id="addDate" name="addDate" value="<?php echo date('m/d/Y'); ?>" style="width: 80px;" />&nbsp;&nbsp;&nbsp;
+					<button class="btn btn-primary" id="addThisItem" onclick="javascript: AddFood.addFoodItem();" disabled>Add Item</button>
 				</div> <!-- End Modal Body -->
 
 				<div class="modal-footer"> <!-- Start Modal Footer -->
 					<button class="btn btn-info" style="float: left;" onclick="javascript: AddFood.addToFavs();">Add To Favorites</button>
 					<button class="btn btn-default" data-dismiss="modal">Close</button>
-					<button class="btn btn-primary">Add Item</button>
 				</div> <!-- End Modal Footer -->
 
 			</div> <!-- End Modal Content -->

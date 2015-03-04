@@ -457,7 +457,7 @@ var AddFood = {
 
 				AddFood.page = 0;
 
-				if (typeof data[0] != 'undefined') {
+				if (data != "0") {
 					data = JSON.parse(data);
 
 					$(".searchResults").html('');
@@ -502,9 +502,10 @@ var AddFood = {
 			},
 			success: function(data) {
 				if(data == "1") {
-					alert("Item has been added to your favorites!");
+					alert("The item has been added to your favorites!");
+				} else if(data == "2") {
+					alert("That item is already in your favorites list!");
 				} else {
-					console.log(data);
 					alert("The item could not be saved. If this continues please contact technical support.\n\nError Code: AddFavorite2");
 				}
 			},
@@ -513,5 +514,61 @@ var AddFood = {
 				alert("Your request could not be processed at this time. If this continues please contact technical support.\n\nError Code: AddFavorite1");
 			}
 		});
+	},
+
+	/**
+	 * Remove Disabled Attribute
+	 */
+	enableBtn: function() {
+		var check = $("#addType option:selected").val();
+
+		if(check.length == 0) {
+			$("#addThisItem").prop("disabled", true);
+		} else {
+			$("#addThisItem").prop("disabled", false);
+		}
+	},
+
+	addFoodItem: function() {
+		var type = $("#addType option:selected").val();
+
+		if(type.length == 0) {
+			alert("You must select a category for this item!");
+			return false;
+		}
+
+		var member = $("#memberNumber").val();
+		var number = AddFood.item.number;
+		var calories = $("#cal").html();
+
+		var serving = $("#serving").html().split(" ");
+		var measure = serving[2];
+		var type = serving[3];
+		var date = $("#addDate").val();
+
+		var obj = {
+			member: member,
+			number: number,
+			calories: calories,
+			measure: measure,
+			type: type,
+			date: date
+		};
+
+		$.ajax({
+			type: "POST",
+			url: "controller/GetFood.Controller.php",
+			data: {
+				task: "addFoodItem",
+				obj: obj
+			},
+			success: function(data) {
+
+			},
+			error: function(xhr) {
+				console.log(xhr);
+				alert("Your request could not be processed at this time. If this continues please contact technical support.\n\nError Code: AddFoodItem1");
+			}
+		})
 	}
 };

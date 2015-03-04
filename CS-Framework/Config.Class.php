@@ -32,14 +32,14 @@ class Config
 	 *
 	 * @var String
 	 */
-	private $user = "csuser";
+	private $user = "";
 
 	/**
 	 * Password
 	 *
 	 * @var String
 	 */
-	private $pwd = "zeroaliens";
+	private $pwd = "";
 
 	########################################
 	# DO NOT MODIFY BELOW
