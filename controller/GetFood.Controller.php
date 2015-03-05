@@ -5,6 +5,7 @@
  * @copyright Club Systems 2015
  * @author Joe Kasavage
  */
+session_start();
 
 require("../model/GetFood.Model.php");
 
@@ -38,6 +39,10 @@ switch($task) {
 
 	case 'addFoodItem':
 		$obj::addFoodItem($_POST["obj"]);
+		break;
+
+	case 'getFavorites':
+		$obj::getFavorites($_POST["member"]);
 		break;
 
 	default:

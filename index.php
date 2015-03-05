@@ -27,23 +27,18 @@ set_error_handler(function($errno, $errstr, $errfile, $errline, array $errcontex
 	throw new ErrorException($errstr, 0, $errno, $errfile, $errline);
 });
 
-// Get User Calories
 $db = new CSF\Modules\Data("nutrition");
 
-$calParam = array(
+$idParam = array(
 		"table"=>"users",
-		"columns"=>array("intake")
+		"columns"=>array("id")
 	);
 
-$getCal = $db->selectData($calParam)
+$getID = $db->selectData($idParam)
 			 ->where(array("member"=>$_SESSION["memno"]))
 			 ->execute();
 
-if($getCal) {
-	$_SESSION["calories"] = $getCal[0]["intake"];
-} else {
-	$_SESSION["calories"] = 0;
-}
+$_SESSION["nutritionID"] = $getID[0]["id"];
 ?>
 
 <html>
@@ -62,8 +57,8 @@ if($getCal) {
 
 			<div id="menu"> <!-- Start Menu -->
 				<div class="list-group">
-					<div class="list-group-item" style="font-size: 22px; text-align: center; height: 100px; padding-top: 28px;">
-						Daily Calories Left:<br /> <?php echo $_SESSION["calories"]; ?>
+					<div class="list-group-item daily" style="font-size: 22px; text-align: center; height: 100px; padding-top: 28px;">
+						Daily Calories Left:<br /> <span id="dailyIntake"></span>
 					</div>
 
 					<a href="#" class="list-group-item" style="font-size: 20px; text-align: center; padding: 15px;">
@@ -167,6 +162,25 @@ if($getCal) {
 		$("#menu").BootSideMenu({
 			side: "right",
 			autoClose: true
+		});
+
+		$(function() {
+			// Get current Daily Calories
+			$.ajax({
+				type: "POST",
+				url: "controller/Calories.Controller.php",
+				data: {
+					task: 'getIntake',
+					member: $("#memberNumber").val()
+				},
+				success: function(data) {
+					$("#dailyIntake").html(data);
+				},
+				error: function(xhr) {
+					console.log(xhr);
+					alert("There appears to be an error retrieving your information. Please try again.\n\nError Code: DailyIntake1");
+				}
+			});
 		});
 	</script>
 

@@ -529,6 +529,9 @@ var AddFood = {
 		}
 	},
 
+	/**
+	 * Add Food Item to Collection
+	 */
 	addFoodItem: function() {
 		var type = $("#addType option:selected").val();
 
@@ -536,21 +539,21 @@ var AddFood = {
 			alert("You must select a category for this item!");
 			return false;
 		}
-
-		var member = $("#memberNumber").val();
+		
 		var number = AddFood.item.number;
 		var calories = $("#cal").html();
 
 		var serving = $("#serving").html().split(" ");
 		var measure = serving[2];
-		var type = serving[3];
+		var mType = serving[3].replace('</i>', '');
 		var date = $("#addDate").val();
 
 		var obj = {
-			member: member,
+			member: $("#memberNumber").val(),
 			number: number,
 			calories: calories,
 			measure: measure,
+			mType: mType,
 			type: type,
 			date: date
 		};
@@ -563,12 +566,67 @@ var AddFood = {
 				obj: obj
 			},
 			success: function(data) {
+				if(data == '1') {
+					alert("Your item has been added!");
 
+					$.ajax({
+						type: "POST",
+						url: "controller/Calories.Controller.php",
+						data: {
+							task: 'getIntake',
+							member: $("#memberNumber").val()
+						},
+						success: function(data) {
+							$("#dailyIntake").html(data);
+						},
+						error: function(xhr) {
+							console.log(xhr);
+							alert("There appears to be an error retrieving your information. Please try again.\n\nError Code: DailyIntake1");
+						}
+					});
+				} else if(data == '0') {
+					alert("Your item could not be added at this time. Please try again.\n\nError Code: AddFoodItem2");
+				}
 			},
 			error: function(xhr) {
 				console.log(xhr);
 				alert("Your request could not be processed at this time. If this continues please contact technical support.\n\nError Code: AddFoodItem1");
 			}
 		})
+	},
+
+	/**
+	 * Get Favorites
+	 */
+	getFavorites: function() {
+		$.ajax({
+			type: "POST",
+			url: "controller/GetFood.Controller.php",
+			data: {
+				task: 'getFavorites',
+				member: $("#memberNumber").val()
+			},
+			success: function(data) {
+				if(data == '0') {
+					$("#favorites").html('<b>You do not have any items in your Favorites list.</b>');
+				} else {
+					$("#favorites").html('<b>Select:</b><br /><select id="favList"></select>&nbsp;&nbsp;&nbsp;<button class="btn btn-default" onclick="javascript: AddFood.openFavorite();">Add</button>');
+					$("#favList").html(data);
+				}
+			},
+			error: function(xhr) {
+				console.log(xhr);
+				alert("There was an error while trying to retrieve some of your data. Please try again.\n\nError Code: Favorites1");
+			}
+		});
+	},
+
+	/**
+	 * Get Favorite Details
+	 */
+	openFavorite: function() {
+		var item = $("#favList option:selected").attr("id");
+
+		AddFood.getFoodDetails(item);
 	}
 };

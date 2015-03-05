@@ -66,6 +66,12 @@
 
 
 	$(document).on('click', '.sidebar .list-group-item', function(event){
+		var e = $(this);
+
+		if(e.hasClass("daily")) {
+			return false;
+		}
+
 		var idToToggle, this_offset, this_x, this_y, href, side;
 		event.preventDefault();
 		href = $(this).attr('href');

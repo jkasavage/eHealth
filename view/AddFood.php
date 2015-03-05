@@ -35,7 +35,7 @@ $builder = new CSF\Modules\Forms();
 						<a href="#byCategory" role="tab" aria-controls="byCategory" data-toggle="tab">By Category</a>
 					</li>
 					<li role="presentation">
-						<a href="#recentItems" role="tab" aria-controls="recentItems" data-toggle="tab">Recent Items</a>
+						<a href="#favorites" role="tab" aria-controls="favorites" data-toggle="tab">Favorites</a>
 					</li>
 				</ul> <!-- End Tab Menu -->
 
@@ -61,9 +61,9 @@ $builder = new CSF\Modules\Forms();
 						<button class="btn btn-success" onClick="javascript: AddFood.categorySearch();">Go!</button>
 					</div> <!-- End Category Search -->
 
-					<div role="tabpanel" class="tab-pane" id="recentItems"> <!-- Start Recent Items -->
-
-					</div> <!-- End Recent Items -->
+					<div role="tabpanel" class="tab-pane" id="favorites"> <!-- Start Favorite Items -->
+						
+					</div> <!-- End Favorite Items -->
 				</div> <!-- End Tabs -->
 
 			</div>
@@ -256,5 +256,6 @@ $builder = new CSF\Modules\Forms();
 	$(function() {
 		AddFood.getFoodCats();
 		AddFood.getMeals();
+		AddFood.getFavorites();
 	});
 </script>

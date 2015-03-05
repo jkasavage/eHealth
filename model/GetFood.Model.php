@@ -31,7 +31,7 @@ class GetFood
 					);
 
 		$cats = $db->selectData($selectParam)
-	   			->execute();
+	   			   ->execute();
 
 		echo json_encode($cats, true);
 	}
@@ -185,12 +185,77 @@ class GetFood
 		}
 	}
 
+	/**
+	 * Add Food Item
+	 * 
+	 * @param String $member
+	 * @param Array $data
+	 *
+	 * @return String
+	 */
 	public static function addFoodItem($data)
 	{
 		$conn = new Mongo();
 
 		$db = $conn->selectDB("foodLog");
 
-		$col = $db->selectCollection($data["member"]);
+		$splitMem = explode("-", $data["member"]);
+		$memCol = "member" . $splitMem[0] . $splitMem[1];
+
+		$col = $db->selectCollection($memCol);
+
+		try {
+			$col->insert($data);
+
+			echo '1';
+		} catch(MongoCursorException $ex) {
+			echo '0';
+		}
+	}
+
+	/**
+	 * Parse Favorites List
+	 * 
+	 * @param  String $member
+	 * 
+	 * @return String
+	 */
+	public static function getFavorites($member)
+	{
+		$db = new CSF\Modules\Data("nutrition");
+
+		$favParam = array(
+				"table"=>"users",
+				"columns"=>array(
+						"favorites"
+					)
+			);
+
+		$data = $db->selectData($favParam)
+		   		  ->where(array("member"=>$member))
+		   		  ->execute();
+
+		if(isset($data[0]["favorites"]) && strlen($data[0]["favorites"]) > 0) {
+			$favs = explode(",", $data[0]["favorites"]);
+
+			foreach($favs as $x) {
+				$fdb = new CSF\Modules\Data("nutrition");
+
+				$itemParam = array(
+						"table"=>"foodInfo",
+						"columns"=>array(
+								"name"
+							)
+					);
+
+				$info = $fdb->selectData($itemParam)
+						   ->where(array("number"=>$x))
+						   ->execute();
+
+				echo '<option id="' . $x . '">' . substr($info[0]["name"], 0, 50) . '..</option>';
+			}
+		} else {
+			echo '0';
+		}
 	}
 }
