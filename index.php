@@ -26,19 +26,6 @@ set_error_handler(function($errno, $errstr, $errfile, $errline, array $errcontex
 
 	throw new ErrorException($errstr, 0, $errno, $errfile, $errline);
 });
-
-$db = new CSF\Modules\Data("nutrition");
-
-$idParam = array(
-		"table"=>"users",
-		"columns"=>array("id")
-	);
-
-$getID = $db->selectData($idParam)
-			 ->where(array("member"=>$_SESSION["memno"]))
-			 ->execute();
-
-$_SESSION["nutritionID"] = $getID[0]["id"];
 ?>
 
 <html>
@@ -49,6 +36,9 @@ $_SESSION["nutritionID"] = $getID[0]["id"];
 		<link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" />
 		<script src="includes/BootSideMenu.js"></script>
 		<link rel="stylesheet" type="text/css" href="includes/BootSideMenu.css" />
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.min.js"></script>
+		<script src="includes/DatePicker.js"></script>
+		<link rel="stylesheet" type="text/css" href="includes/DatePicker.css" />
 	</head>
 
 	<body>
@@ -69,16 +59,12 @@ $_SESSION["nutritionID"] = $getID[0]["id"];
 						<span class="glyphicon glyphicon-cutlery"></span> Add Food
 					</a>
 
-					<a href="index.php?view=EditFood" class="list-group-item" style="font-size: 20px; text-align: center; padding: 15px;">
-						<span class="glyphicon glyphicon-erase"></span> Edit Food
+					<a href="#" class="list-group-item" style="font-size: 20px; text-align: center; padding: 15px;">
+						<span class="glyphicon glyphicon-copy"></span> Create Food
 					</a>
 
-					<a href="#" class="list-group-item" style="font-size: 20px; text-align: center; padding: 15px;">
-						<span class="glyphicon glyphicon-blackboard"></span> Notes
-					</a>
-
-					<a href="#" class="list-group-item" style="font-size: 20px; text-align: center; padding: 15px;">
-						<span class="glyphicon glyphicon-stats"></span> Stats
+					<a href="index.php?view=Meals" class="list-group-item Meals" style="font-size: 20px; text-align: center; padding: 15px;">
+						<span class="glyphicon glyphicon-apple"></span> Meals
 					</a>
 
 					<a href="#" class="list-group-item" style="font-size: 20px; text-align: center; padding: 15px;">
@@ -95,6 +81,10 @@ $_SESSION["nutritionID"] = $getID[0]["id"];
 
 					<a href="index.php?view=AddFood" class="list-group-item Tickets" style="font-size: 20px; text-align: center; padding: 15px;">
 						<span class="glyphicon glyphicon-envelope"></span> Tickets
+					</a>
+
+					<a href="https://www.healthclubsystems.com/member_new/accountportal.php" class="list-group-item" style="font-size: 20px; text-align: center; padding: 15px;">
+						<span class="glyphicon glyphicon-retweet"></span> Portal
 					</a>
 
 					<div style="text-align: center; font-size:12px; padding-top: 18%;">
@@ -129,8 +119,8 @@ $_SESSION["nutritionID"] = $getID[0]["id"];
 		</div> <!-- End Container -->
 
 		<div class="modal fade" id="intro"> <!-- Start Intro Modal -->
-			<div class="modal-dialog">
-				<div class="modal-content">
+			<div class="modal-dialog">				<div class="modal-content">
+
 					<div class="modal-header" id="introHeader"> <!-- Start Modal Header -->
 						<h4 class="modal-title">Introduction</h4>
 					</div> <!-- End Modal Header -->
@@ -185,18 +175,18 @@ $_SESSION["nutritionID"] = $getID[0]["id"];
 	</script>
 
 	<?php
-			$selectParam = array(
-					"table"=>"users"
-				);
+		$selectParam = array(
+				"table"=>"users"
+			);
 
-			$db = new CSF\Modules\Data("nutrition");
+		$db = new CSF\Modules\Data("nutrition");
 
-			$check = $db->selectData($selectParam)
-						->where(array("member"=>$_SESSION["memno"]))
-						->execute();
+		$check = $db->selectData($selectParam)
+					->where(array("member"=>$_SESSION["memno"]))
+					->execute();
 
-			if(!isset($check[0]["member"])) {
-				echo '<script src="js/Intro.js"></script>';
-			}
-		?>
+		if(!isset($check[0]["member"])) {
+			echo '<script src="js/Intro.js"></script>';
+		}
+	?>
 </html>

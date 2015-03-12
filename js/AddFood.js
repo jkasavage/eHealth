@@ -113,6 +113,7 @@ var AddFood = {
 
 				if (typeof data[0] != 'undefined') {
 					$(".searchResults").html('');
+					$(".contentTitle").html('Search Results');
 
 					$("#pages").html('');
 
@@ -610,7 +611,7 @@ var AddFood = {
 				if(data == '0') {
 					$("#favorites").html('<b>You do not have any items in your Favorites list.</b>');
 				} else {
-					$("#favorites").html('<b>Select:</b><br /><select id="favList"></select>&nbsp;&nbsp;&nbsp;<button class="btn btn-default" onclick="javascript: AddFood.openFavorite();">Add</button>');
+					$("#favorites").html('<b>Select an Item:</b><br /><select id="favList"></select>&nbsp;&nbsp;&nbsp;<button class="btn btn-default" onclick="javascript: AddFood.openFavorite();">Add</button>');
 					$("#favList").html(data);
 				}
 			},

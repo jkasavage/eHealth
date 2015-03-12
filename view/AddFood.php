@@ -79,8 +79,8 @@ $builder = new CSF\Modules\Forms();
 
 					echo $builder::CSSelect($mealParam);
 				?>
-				&nbsp;&nbsp;
-				<button id="mealBtn" class="btn btn-success" onClick="" style="display: none;">Add Meal!</button>
+				&nbsp;&nbsp;&nbsp;
+				<button id="mealBtn" class="btn btn-success" onClick="" style="display: none;">Add Meal!</button><br /><br />
 			</div>
 		</div><!-- End Right Block -->
 
@@ -89,8 +89,8 @@ $builder = new CSF\Modules\Forms();
 	<div id="results" style="clear: both; margin-left: auto; margin-right: auto; width: 600px; text-align: left; display: none;"> <!-- Start Results -->
 		
 		<div class="panel panel-default">
-			<div class="panel-heading" style="height: 40px; padding: 5px; padding-left: 10px;"><h4 style="font-weight: bold;">Results<span style="float: right;" id="pages"></span></h4></div>
-			<div class="panel-body searchResults">
+			<div class="panel-heading" style="height: 40px; padding: 5px; padding-left: 10px;"><h4 class="contentTitle" style="font-weight: bold;">Results<span style="float: right;" id="pages"></span></h4></div>
+			<div class="panel-body searchResults contentBody">
 
 			</div>
 		</div>
@@ -233,9 +233,9 @@ $builder = new CSF\Modules\Forms();
 					<sub><b><i>*Note: You must select a category before you can add any item!</i></b></sub><br /><br />
 
 					<label class="control-label" for="addType">Category: </label>
-					<select id="addType" name="addType" onchange="javascript: AddFood.enableBtn();"><option></option><option>Breakfast</option><option>Lunch</option><option>Dinner</option><option>Snack</option></select>&nbsp;&nbsp;&nbsp;
+					<select id="addType" onchange="javascript: AddFood.enableBtn();"><option></option><option>Breakfast</option><option>Lunch</option><option>Dinner</option><option>Snack</option></select>&nbsp;&nbsp;&nbsp;
 					<label class="control-label" for="addDate">Date: </label>
-					<input id="addDate" name="addDate" value="<?php echo date('m/d/Y'); ?>" style="width: 80px;" />&nbsp;&nbsp;&nbsp;
+					<input id="addDate" value="<?php echo date('m/d/Y'); ?>" style="width: 80px;" />&nbsp;&nbsp;&nbsp;
 					<button class="btn btn-primary" id="addThisItem" onclick="javascript: AddFood.addFoodItem();" disabled>Add Item</button>
 				</div> <!-- End Modal Body -->
 
@@ -257,5 +257,9 @@ $builder = new CSF\Modules\Forms();
 		AddFood.getFoodCats();
 		AddFood.getMeals();
 		AddFood.getFavorites();
+
+		$("#addDate").datepicker({
+			autoclose: true
+		});
 	});
 </script>
