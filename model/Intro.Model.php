@@ -1,8 +1,7 @@
 <?php
 /**
- * Club Systems Nutrition - Introduction Model
+ * Intro Model
  *
- * @copyright Club Systems 2015
  * @author Joe Kasavage
  */
 ini_set('display_errors', 1);

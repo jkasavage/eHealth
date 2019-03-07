@@ -3,30 +3,58 @@
 namespace CSF\Modules;
 
 /**
- * Auto Loader - Club Systems Framework
- * Do NOT modify
- *
+ * Auto Loader
+ * PSR-4 Compliant
+ * 
  * Usage: require_once("./CS-Framework/AutoLoader.Class.php");
  *		  $auto = new AutoLoader();
  *		  $auto->register();
  * 
- * Copyright Club Systems 2015
  * @author Joseph Kasavage
  */
 
 class AutoLoader
 {
+	/**
+	 * Extension
+	 * 
+	 * @var string
+	 */
 	private $_ext = '.Class.php';
+
+	/**
+	 * Namespace
+	 * 
+	 * @var string
+	 */
 	private $_namespace = 'CSF\Modules';
+
+	/**
+	 * Path
+	 *
+	 * @var string
+	 */
 	private $_path = './CS-Framework/';
+
+	/**
+	 * Seperator
+	 *
+	 * @var string
+	 */
 	private $_seperator = '\\';
+
+	/**
+	 * Classes
+	 *
+	 * @var array
+	 */
 	private $_classes = array(
-								"Config",
-								"Data",
-								"Exceptions",
-								"Forms",
-								"Validate"
-							);
+		"Config",
+		"Data",
+		"Exceptions",
+		"Forms",
+		"Validate"
+	);
 
 	/**
 	 * Get Extension

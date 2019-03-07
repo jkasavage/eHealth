@@ -1,7 +1,6 @@
 /**
- * Club Systems Nutrition - Introduction Events
+ * Introduction Events
  *
- * @copyright Club Systems 2015
  * @author Joe Kasavage
  */
 
@@ -199,7 +198,7 @@ var introEvents = {
         $("#introFooter").html('<button class="btn btn-info" onclick="javascript: introEvents.presentClose();">Next</button>');
 
         introEvents.highlightTicket();
-        $("#introBody").html('Here at Club Systems we strive to excel in customer service. If you wish to send us an idea or point out a bug just click on the Ticket link to the right.<br /><br />');
+        $("#introBody").html('Here at Some Company we strive to excel in customer service. If you wish to send us an idea or point out a bug just click on the Ticket link to the right.<br /><br />');
         $("#introBody").append('Click the next button to continue.');
     },
 

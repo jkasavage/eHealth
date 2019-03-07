@@ -2,7 +2,8 @@
 namespace CSF\Modules;
 
 /**
- * Data Abstraction Layer - Club Systems Framework
+ * Data Abstraction Layer
+ * 
  * Do NOT modify
  *
  * Usage: This class is specifically made to use chain methods.
@@ -12,7 +13,6 @@ namespace CSF\Modules;
  * 		  	    ->limit(array(5))
  * 		  	    ->execute();
  * 
- * Copyright Club Systems 2015
  * @author Joseph Kasavage
  */
 

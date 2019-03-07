@@ -1,7 +1,6 @@
 /**
- * Club Systems Nutrition - Add Food Events
+ * Add Food Events
  *
- * @copyright Club Systems 2015
  * @author Joe Kasavage
  */
 

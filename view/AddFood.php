@@ -1,15 +1,9 @@
 <?php
 /**
- * Club Systems Nutrition - Add Food View
+ * Add Food View
  *
- * @copyright Club Systems 2015
  * @author Joe Kasavage
  */
-
-// CSF Auto Loader Instance
-require_once('CS-Framework/AutoLoader.Class.php');
-$auto = new CSF\Modules\AutoLoader();
-$auto->register();
 
 $builder = new CSF\Modules\Forms();
 

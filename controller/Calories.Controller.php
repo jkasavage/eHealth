@@ -1,14 +1,13 @@
 <?php
 /**
- * Club Systems Nutrition - Calories Controller
+ * Calories Controller
  *
- * @copyright Club Systems 2015
  * @author Joe Kasavage
  */
 
 require('../model/Calories.Model.php');
 
-$task = $_POST["task"];
+$task = preg_replace("/\PL/u", "", $_POST["task"]);
 $obj = new Calories();
 
 switch($task) {

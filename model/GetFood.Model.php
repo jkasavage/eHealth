@@ -1,8 +1,7 @@
 <?php
 /**
- * Club Systems Nutrition - Add Food View
+ * Get Food Model
  *
- * @copyright Club Systems 2015
  * @author Joe Kasavage
  */
 

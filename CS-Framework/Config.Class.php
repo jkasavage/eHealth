@@ -3,11 +3,11 @@
 namespace CSF\Modules;
 
 /**
- * Configuration File - Club Systems Framework
+ * Configuration File
+ * 
  * Ensure all variables are set to match session variables
  * (ie. private ident = $_SESSION["YOURVARIABLE"])
  *
- * Copyright Club Systems 2015
  * @author Joseph Kasavage
  */
 
@@ -50,9 +50,9 @@ class Config
 	 */
 	public function __construct()
 	{
-		if(isset($_COOKIE["csysident"]) && isset($_COOKIE["csyssite"])) {
-			$this->ident = $_COOKIE["csysident"];
-			$this->site = $_COOKIE["csyssite"];
+		if(isset($_COOKIE["identifier"]) && isset($_COOKIE["site"])) {
+			$this->ident = $_COOKIE["identifier"];
+			$this->site = $_COOKIE["site"];
 		}
 	}
 
@@ -106,15 +106,15 @@ class Config
 		if(isset($_SERVER["HTTP_HOST"])) {
 			$host = explode(".", $_SERVER["HTTP_HOST"]);
 
-			if($host[0] == "v2kpro") {
-				return '172.16.238.23';
-			} else if ($host[0] == "healthclubsystems") {
+			if($host[0] == "randomSiteName") {
+				return '###.IP.###';
+			} else if ($host[0] == "theRightHost.com") {
 				$uri = explode("/", $_SERVER["REQUEST_URI"]);
 
 				if($uri[0] == "member_new" && $uri[1] == "nutrition") {
 					return "localhost";
 				} else {
-					return $_COOKIE["csysserver"];
+					return $_COOKIE["server"];
 				}
 			} else {
 				return 'localhost';

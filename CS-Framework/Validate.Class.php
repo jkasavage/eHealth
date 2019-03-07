@@ -3,10 +3,10 @@
 namespace CSF\Modules;
 
 /**
- * Validation - Club Systems Framework
+ * Validation
+ * 
  * Do NOT modify
  * 
- * Copyright Club Systems 2015
  * @author Joseph Kasavage
  */
 

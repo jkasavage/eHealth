@@ -3,7 +3,8 @@
 namespace CSF\Modules;
 
 /**
- * Forms Class - Club Systems Framework
+ * Forms Class
+ * 
  * Do NOT modify
  *
  * Usage: This class relies on Static Method calls:
@@ -15,7 +16,6 @@ namespace CSF\Modules;
  * 		  echo $obj::CSSubmit();
  * 		  echo $obj::CSFormEnd();
  * 
- * Copyright Club Systems 2015
  * @author Joseph Kasavage
  */
 

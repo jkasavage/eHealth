@@ -3,10 +3,10 @@
 namespace CSF\Modules;
 
 /**
- * Exceptions - Club Systems Framework
+ * Exception Class
+ * 
  * Do NOT modify
  * 
- * Copyright Club Systems 2015
  * @author Joseph Kasavage
  */
 

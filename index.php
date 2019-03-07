@@ -1,36 +1,24 @@
 <?php
 /**
- * Club Systems Nutrition
- *
- * @copyright Club Systems 2015
+ * Nutrition System Home Page
+ * 
  * @author Joe Kasavage
  */
 session_start();
 
 if(!isset($_SESSION["server"])) {
-	header("Location: https://www.healthclubsystems.com/member_new/member_login.php");
+	header("Location: moveToAnotherSite.com");
 }
 
 // CSF Auto Loader Instance
 require_once('CS-Framework/AutoLoader.Class.php');
 $auto = new CSF\Modules\AutoLoader();
 $auto->register();
-
-/**
- * Custom Error Handling
- */
-set_error_handler(function($errno, $errstr, $errfile, $errline, array $errcontext){
-	if(0 === error_reporting()) {
-		return false;
-	}
-
-	throw new ErrorException($errstr, 0, $errno, $errfile, $errline);
-});
 ?>
 
 <html>
 	<head>
-		<title>Club Systems - eHealth</title>
+		<title>Nutrition - eHealth</title>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 		<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 		<link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" />
@@ -83,13 +71,13 @@ set_error_handler(function($errno, $errstr, $errfile, $errline, array $errcontex
 						<span class="glyphicon glyphicon-envelope"></span> Tickets
 					</a>
 
-					<a href="https://www.healthclubsystems.com/member_new/accountportal.php" class="list-group-item" style="font-size: 20px; text-align: center; padding: 15px;">
+					<a href="http://www.backToSomePortal.com" class="list-group-item" style="font-size: 20px; text-align: center; padding: 15px;">
 						<span class="glyphicon glyphicon-retweet"></span> Portal
 					</a>
 
 					<div style="text-align: center; font-size:12px; padding-top: 18%;">
 						<strong>Powered by:</strong><br />
-						<a href="https://www.healthclubsystems.com"><img src="img/cs.png" /></a>
+						<a href="https://www.someCompany.com">Some Company</a>
 					</div>
 				</div>
 			</div> <!-- End Menu -->
@@ -104,14 +92,20 @@ set_error_handler(function($errno, $errstr, $errfile, $errline, array $errcontex
 
 			<div id="content" style="margin-right: auto; margin-left: auto;"> <!-- Start Content -->
 				<?php
-					try{
-						if(isset($_GET["view"])) {
-							include("view/" . $_GET["view"] . ".php");
+					if(isset($_GET["view"])) {
+						/**
+						 * Sanitize GET view parameter
+						 */
+						$sanitize = preg_replace("/\PL/u", "", $_GET["view"]);
+
+						if(file_exists("view/" . $sanitize . ".php"))
+						{
+							include("view/" . $sanitize . ".php");
 						} else {
-							include("view/Dashboard.php");
+							echo "<h3 style='font-weight: bold;'>We're sorry, this page either cannot be found or does not exist. <a href='view/Dashboard.php'>Click here to go back</a></h3>";
 						}
-					} catch(ErrorException $ex) {
-						echo "<h3 style='font-weight: bold;'>We're sorry, this page either cannot be found or does not exist. <a onclick='javascript: history.go(-1);'>Click here to go back</a></h3>";
+					} else {
+						include("view/Dashboard.php");
 					}
 				?>
 			</div> <!-- End Content -->
@@ -119,16 +113,17 @@ set_error_handler(function($errno, $errstr, $errfile, $errline, array $errcontex
 		</div> <!-- End Container -->
 
 		<div class="modal fade" id="intro"> <!-- Start Intro Modal -->
-			<div class="modal-dialog">				<div class="modal-content">
+			<div class="modal-dialog">				
+				<div class="modal-content">
 
 					<div class="modal-header" id="introHeader"> <!-- Start Modal Header -->
 						<h4 class="modal-title">Introduction</h4>
 					</div> <!-- End Modal Header -->
 
 					<div class="modal-body" id="introBody"> <!-- Start Modal Body -->
-						<strong>Welcome to Club Systems eHealth!</strong><br /><br />
+						<strong>Welcome to Nutrition - eHealth!</strong><br /><br />
 
-						As with ever aspect of our software we are bringing you the best of the nutrition world.<br /><br />
+						As with every aspect of our software we are bringing you the best of the nutrition world.<br /><br />
 						In order to proceed we are going to need some information to form your profile to ensure
 						that you are being shown the most up to date information in the fitness world.<br /><br /> When you
 						are ready to continue please click on the "Next" button below.
@@ -137,12 +132,13 @@ set_error_handler(function($errno, $errstr, $errfile, $errline, array $errcontex
 					<div class="modal-footer" id="introFooter"> <!-- Start Modal Footer -->
 						<button class="btn btn-info" onclick="javascript: introEvents.getData();">Next</button>
 					</div> <!-- End Modal Footer -->
+
 				</div>
 			</div>
 		</div> <!-- End Intro Modal -->
 
 		<?php 
-			echo '<input id="memberNumber" type="hidden" value="' . $_SESSION["memno"] . '" />';
+			echo '<input id="memberNumber" type="hidden" value="' . $_SESSION["memberNumber"] . '" />';
 		?>
 
 	</body>
@@ -176,13 +172,13 @@ set_error_handler(function($errno, $errstr, $errfile, $errline, array $errcontex
 
 	<?php
 		$selectParam = array(
-				"table"=>"users"
-			);
+			"table"=>"users"
+		);
 
 		$db = new CSF\Modules\Data("nutrition");
 
 		$check = $db->selectData($selectParam)
-					->where(array("member"=>$_SESSION["memno"]))
+					->where(array("member"=>$_SESSION["memberNumber"]))
 					->execute();
 
 		if(!isset($check[0]["member"])) {

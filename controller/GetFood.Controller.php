@@ -1,8 +1,7 @@
 <?php
 /**
- * Club Systems Nutrition - GetFood Controller
+ * GetFood Controller
  *
- * @copyright Club Systems 2015
  * @author Joe Kasavage
  */
 session_start();

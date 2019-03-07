@@ -1,8 +1,7 @@
 <?php
 /**
- * Club Systems Nutrition - Calories
+ * Calories
  *
- * @copyright Club Systems 2015
  * @author Joe Kasavage
  */
 
